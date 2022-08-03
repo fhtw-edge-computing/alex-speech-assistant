@@ -1,3 +1,4 @@
+import re
 from word2numberi18n import w2n
 w2nInstance = w2n.W2N(lang_param='de')
 
@@ -46,12 +47,15 @@ def anyEqual(string, array):
             return True
             
     return False
-    
-def anyExists(string, array):
-    return whichExistsIn(string, array) != -1
+   
+# returns if any elem of array exists in string   
+def anyExists(string, array, padWhitespace=False):
+    return whichExistsIn(string, array, padWhitespace) != -1
         
-def whichExistsIn(string, array):
+def whichExistsIn(string, array, padWhitespace=False):
     for index, elem in enumerate(array):
+        elem = elem if not padWhitespace else f' {elem} '
+        string = string if not padWhitespace else f' {string} '
         if elem in string:
             return index
             
@@ -88,3 +92,14 @@ def word2Num(word):
 		return w2nInstance.word_to_num(word)
 	except:
 		return None
+		
+def isRegexPhrase(phrase):
+	return '*' in phrase or '{' in phrase
+	
+def phraseToRegex(phrase):
+	phrase = re.sub('\s+', '', phrase)
+	phrase = phrase.replace('*', '.*')
+	return phrase
+
+#regex = phraseToRegex("* küchenlicht * {num} prozent")
+#print(re.match(regex, "üchenlicht 30 prozent"))

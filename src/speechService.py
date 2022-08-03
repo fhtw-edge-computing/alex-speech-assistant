@@ -5,6 +5,7 @@ speakHandler = None
 def speak(text):
 	global speakHandler
 	stopSpeaking()
+	print(f'speaking text: {text}')
 	run(['pico2wave', '--lang=de-DE', '-w', '/tmp/pico.wav', f'"{text}"'])
 	speakHandler = Popen(['aplay', '/tmp/pico.wav'])
 

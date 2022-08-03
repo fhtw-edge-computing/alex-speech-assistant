@@ -7,6 +7,7 @@ import sounddevice as sd
 import vosk
 import sys
 import json
+import re
 import importlib
 
 stringUtil = importlib.import_module("stringUtil")
@@ -71,16 +72,18 @@ def handleResult(text):
         item = setItemDefaults(item)
         if item:
             rec = item["recognition"]
-            inList = item in matchingItems
-            for direct in rec["direct"]:
-                print(direct)
-                if direct in text and not inList:
+            for phrase in rec["phrases"]:
+                if not stringUtil.isRegexPhrase(phrase) and phrase in text:
                     matchingItems.append(item)
+                elif stringUtil.isRegexPhrase(phrase):
+                    regex = stringUtil.phraseToRegex(phrase)
+                    if re.match(regex, text):
+                        matchingItems.append(item)
     
     print("matching items:")
     print(matchingItems)
     if len(matchingItems) > 0:
-        actionHandler.doAction(matchingItems[0])
+        actionHandler.doAction(matchingItems[0], text)
         q.queue.clear()
     
                 
@@ -89,7 +92,7 @@ def setItemDefaults(item):
     if not item or not item["actionType"] or not item["recognition"]:
         return None
         
-    item["recognition"]["direct"] = item["recognition"].get("direct") or []
+    item["recognition"]["phrases"] = item["recognition"].get("phrases") or []
     return item
         
 

@@ -1,0 +1,36 @@
+{
+    "lang": "de",
+    "stopWords": ["stopp"],
+    "items": [
+        {
+            "actionType": "CURRENT_TIME",
+            "recognition": {
+                "direct": ["uhrzeit", "wie sp\u00e4t"]
+            }
+        },
+        {
+            "actionType": "CURRENT_DATE",
+            "recognition": {
+                "direct": ["welcher tag", "datum", "wochentag"]
+            }
+        },
+        {
+            "actionType": "TELL_JOKE",
+            "recognition": {
+                "direct": ["witz"]
+            }
+        },
+        {
+            "actionType": "TELL_WEATHER",
+            "recognition": {
+                "direct": ["wetter"]
+            }
+        },
+        {
+            "actionType": "OPENHAB",
+            "recognition": {
+                "selectName": ["küchenlicht", "licht küche"]
+            }
+        }
+    ]
+}

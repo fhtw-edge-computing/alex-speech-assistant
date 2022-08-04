@@ -1,35 +1,103 @@
 {
     "lang": "de",
-    "stopWords": ["stopp"],
+    "stopWords": [
+        "stopp", "sei leise"
+    ],
     "items": [
         {
             "actionType": "CURRENT_TIME",
             "recognition": {
-                "direct": ["uhrzeit", "wie sp\u00e4t"]
+                "phrases": [
+                    "uhrzeit",
+                    "wie sp\u00e4t"
+                ]
             }
         },
         {
             "actionType": "CURRENT_DATE",
             "recognition": {
-                "direct": ["welcher tag", "datum", "wochentag"]
+                "phrases": [
+                    "welcher tag",
+                    "datum",
+                    "wochentag"
+                ]
             }
         },
         {
             "actionType": "TELL_JOKE",
             "recognition": {
-                "direct": ["witz"]
+                "phrases": [
+                    "witz"
+                ]
             }
         },
         {
             "actionType": "TELL_WEATHER",
             "recognition": {
-                "direct": ["wetter"]
+                "phrases": [
+                    "wetter"
+                ]
+            }
+        },
+        {
+            "actionType": "ANSWER_CUSTOM",
+            "recognition": {
+                "phrases": [
+                    "sinn des lebens"
+                ]
+            },
+            "answers": [
+                "Der Sinn des Lebens ist 42"
+            ]
+        },
+        {
+            "actionType": "ANSWER_CUSTOM",
+            "recognition": {
+                "phrases": [
+                    "wie gehts",
+                    "geht es dir"
+                ]
+            },
+            "answers": [
+                "Mir geht es gut",
+                "Mir ist kalt",
+                "ich bin m\u00fcde",
+                "es geht so",
+                "ich bin fr\u00f6hlich"
+            ]
+        },
+        {
+            "actionType": "CALCULATOR",
+            "recognition": {
+                "phrases": [
+                    "rechne",
+                    "wie * viel * ist",
+                    "was ist"
+                ]
             }
         },
         {
             "actionType": "OPENHAB",
+            "url": "http://myopenhab/restAPI/xy",
+            "paramType": "number",
             "recognition": {
-                "selectName": ["küchenlicht", "licht küche"]
+                "phrases": [
+                    "k\u00fcchenlicht",
+                    "licht * k\u00fcche",
+                    "küche * licht"
+                ]
+            }
+        },
+        {
+            "actionType": "OPENHAB",
+            "url": "http://myopenhab/restAPI/xy",
+            "recognition": {
+                "phrases": [
+                    "jalousie * wohnzimmer",
+                    "wohnzimmer * jalousie",
+                    "rollo * wohnzimmer",
+                    "wohnzimmer * rollo"
+                ]
             }
         }
     ]

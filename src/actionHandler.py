@@ -6,7 +6,8 @@ import random
 import importlib
 
 speechService = importlib.import_module("speechService")
-stringUtil = importlib.import_module("stringUtil")
+openHab = importlib.import_module("openHabConnector")
+actionCalculator = importlib.import_module("actionCalculator")
 
 def doAction(item, text):
 	if not item or not item["actionType"]:
@@ -38,30 +39,10 @@ def doAction(item, text):
 		speechService.speak(random.choice(item["answers"]))
 	
 	elif actionType == "OPENHAB":
-		data = extractOpenHabData(text, item.get("paramType"))
-		print(f'post {data} to {item["url"]}')
-		try:
-			requests.post(item["url"], data=data)
-		except:
-			print("request to openHAB failed")
-
-def extractOpenHabData(text, paramType):
-	data = stringUtil.parseNumber(text)
-	if data:
-		return data
-	
-	if stringUtil.anyExists(text, ["aus", "ausschalten", "abschalten", "abdrehen"], padWhitespace=True):
-		data = "OFF" if paramType != "number" else 0
-	elif stringUtil.anyExists(text, ["ein", "einschalten", "aufdrehen"], padWhitespace=True):
-		data = "ON" if paramType != "number" else 100
-	elif stringUtil.anyExists(text, ["stopp", "stoppen", "halt"], padWhitespace=True):
-		data = "STOP"
-	elif stringUtil.anyExists(text, ["auf", "aufmachen", "oben", "rauf"], padWhitespace=True):
-		data = "UP"
-	elif stringUtil.anyExists(text, ["zu", "zumachen", "unten", "runter"], padWhitespace=True):
-		data = "DOWN"
+		openHab.doAction(item, text)
 		
-	return data
+	elif actionType == "CALCULATOR":
+		actionCalculator.doAction(item, text)
 
 def stop():
 	speechService.stopSpeaking()

@@ -54,13 +54,7 @@ parser.add_argument(
 args = parser.parse_args(remaining)
 
 def handlePartial(text):
-    if len(text) > 0:
-        print("stopping!!!")
-        actionHandler.stop()
-    
     for stopWord in config["stopWords"]:
-        print(stopWord)
-        print(text)
         if stopWord in text:
             print("stopping!!!")
             actionHandler.stop()
@@ -130,14 +124,16 @@ try:
                 data = q.get()
                 if rec.AcceptWaveform(data):
                     result = json.loads(rec.Result())
-                    handleResult(result["text"]);
-                    print(result)
-                    print("---")
+                    resultText = result["text"]
+                    if resultText:
+                        print(f'<<<result>>> {resultText}')
+                        handleResult(resultText);
                 else:
                     partial = json.loads(rec.PartialResult())
-                    handlePartial(partial["partial"]);
-                    print(partial)
-                    print("---")
+                    partialText = partial["partial"]
+                    if partialText:
+                        #print(f'[partial] {partialText}')
+                        handlePartial(partialText);
 
 except KeyboardInterrupt:
     print('\nDone')

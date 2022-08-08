@@ -17,27 +17,33 @@
             "actionType": "CURRENT_DATE",
             "recognition": {
                 "phrases": [
-                    "welcher tag",
+                    "welche * tag",
                     "datum",
                     "wochentag"
                 ]
             }
         },
         {
-            "actionType": "TELL_JOKE",
+            "actionType": "EXTRACT_WEBSITE",
             "recognition": {
                 "phrases": [
-                    "witz"
+                    "witz" ,"lustiges"
                 ]
-            }
+            },
+            "url": "https://witze.net/zuf%C3%A4llige-witze",
+            "xpath": "(//div[@class=\"joke\"])[1]/text()",
+            "fallback": "Ich konnte keinen Witz abrufen"
         },
         {
-            "actionType": "TELL_WEATHER",
+            "actionType": "EXTRACT_WEBSITE",
             "recognition": {
                 "phrases": [
                     "wetter"
                 ]
-            }
+            },
+            "url": "https://wetter.orf.at/wien/",
+            "xpath": "(//p[@class=\"teaser\"])[1]/text()",
+            "fallback": "Ich konnte das Wetter nicht abrufen"
         },
         {
             "actionType": "ANSWER_CUSTOM",

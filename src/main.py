@@ -77,7 +77,7 @@ def handleResult(text):
     print("matching items:")
     print(matchingItems)
     if len(matchingItems) > 0:
-        actionHandler.doAction(matchingItems[0], text)
+        actionHandler.doAction(matchingItems[0], text, config)
         q.queue.clear()
     
                 

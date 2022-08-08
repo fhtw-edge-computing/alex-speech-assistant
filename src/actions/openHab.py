@@ -2,14 +2,23 @@ import requests
 import importlib
 
 stringUtil = importlib.import_module("stringUtil")
+speechService = importlib.import_module("speechService")
 
-def doAction(item, text):
+def getActionTypes():
+	return ["OPENHAB"]
+
+
+def doAction(item, text, actionType, config):
 	data = extractOpenHabData(item, text)
 	print(f'post {data} to {item["url"]}')
 	try:
 		requests.post(item["url"], data=data)
 	except:
 		print("request to openHAB failed")
+		speechService.speak("Aktion fehlgeschlagen")
+		return
+	speechService.speak("OK")
+	
 
 def extractOpenHabData(item, text):
 	data = stringUtil.parseNumber(text)

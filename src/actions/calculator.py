@@ -7,6 +7,9 @@ stringUtil = importlib.import_module("stringUtil")
 speechService = importlib.import_module("speechService")
 util = importlib.import_module("util")
 
+def getActionTypes():
+	return ["CALCULATOR"]
+
 
 class OPERATORS(Enum): 
 	MULTIPLY = auto()
@@ -60,7 +63,7 @@ operatorNumPosMap = {
 resultWord = "ergebnis"
 lastResult = None
 
-def doAction(item, text):
+def doAction(item, text, actionType, config):
 	global lastResult
 	
 	operator = getOperator(text)
@@ -76,7 +79,7 @@ def doAction(item, text):
 			numbers[1] = lastResult
 		
 		result = None
-		if operatorNumCountMap.get(operator) == 2:
+		if operatorNumCountMap.get(operator) == 2 and util.isNumber(numbers[0]) and util.isNumber(numbers[1]):
 			result = operatorFnMap.get(operator)(numbers[0], numbers[1])
 			text = f'{round(numbers[0], 3)} {operatorWordMap.get(operator)[0]} {round(numbers[1], 3)} ist {round(result, 3)}'
 		elif operatorNumCountMap.get(operator) == 1:

@@ -13,7 +13,7 @@ def doAction(item, text, actionType, config):
 	if not util.validAttributes(item, ["url"]):
 		return None
 		
-	return getActionText(item.get("url"), item.get("xpath"), item.get("fallback"))
+	speechService.speak(getActionText(item.get("url"), item.get("xpath"), item.get("fallback")))
 	
 def getActionText(url, xpath, fallback=None, urlargs=[]):
 	if (not url):

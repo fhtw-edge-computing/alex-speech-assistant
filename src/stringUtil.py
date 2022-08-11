@@ -1,53 +1,54 @@
 import re
 import math
 from word2numberi18n import w2n
+from Levenshtein import distance as levdist
+from difflib import SequenceMatcher
 import importlib
 
 util = importlib.import_module("util")
-w2nInstance = w2n.W2N(lang_param='de')
 
 numberWords = [
-		"dreizehn",
-		"vierzehn",
-		"fünfzehn",
-		"sechzehn",
-		"siebzehn",
-		"achtzehn",
-		"neunzehn",
-		"zwanzig",
-		"dreißig",
-		"dreizig",
-		"vierzig",
-		"fünfzig",
-		"sechzig",
-		"siebzig",
-		"achtzig",
-		"neunzig",
-		"hundert",
-		"tausend",
-		"ein",
-		"eins",
-		"zwei",
-		"drei",
-		"vier",
-		"fünf",
-		"sechs",
-		"sieben",
-		"acht",
-		"neun",
-		"zehn",
-		"elf",
-		"zwölf",
-		"und"]
-		
+    "dreizehn",
+    "vierzehn",
+    "fünfzehn",
+    "sechzehn",
+    "siebzehn",
+    "achtzehn",
+    "neunzehn",
+    "zwanzig",
+    "dreißig",
+    "dreizig",
+    "vierzig",
+    "fünfzig",
+    "sechzig",
+    "siebzig",
+    "achtzig",
+    "neunzig",
+    "hundert",
+    "tausend",
+    "ein",
+    "eins",
+    "zwei",
+    "drei",
+    "vier",
+    "fünf",
+    "sechs",
+    "sieben",
+    "acht",
+    "neun",
+    "zehn",
+    "elf",
+    "zwölf",
+    "und"]
+    
 negativeNumberWord = "minus"
 piWord = ".*kreis.*zahl.*"
 eulerWord = ".*eule.*zahl.*"
-		
+    
 replaceMap = {
-	"dreißig": "dreizig",
-		"ein": "eins",
-		"sex": "sechs"
+    "dreißig": "dreizig",
+    "ein": "eins",
+    "sex": "sechs"
 }
 
 def anyEqual(string, array):
@@ -56,14 +57,14 @@ def anyEqual(string, array):
             return True
             
     return False
-   
+
 # returns if any elem of array exists in string   
 def anyExists(string, array, padWhitespace=False):
     return whichExistsIn(string, array, padWhitespace) != -1
     
 def anyWordExists(string, array):
-	return anyExists(string, array, padWhitespace=True)
-        
+    return anyExists(string, array, padWhitespace=True)
+
 def whichExistsIn(string, array, padWhitespace=False):
     for index, elem in enumerate(array):
         elem = elem if not padWhitespace else f' {elem} '
@@ -88,11 +89,12 @@ def prepareStringForNumConversion(string):
             array[index] = prepareWordForNumConversion(item)
     
     return " ".join(array)
-           
-def parseNumber(text):
+
+def parseNumber(text, lang="de"):
     numText = prepareStringForNumConversion(text)
     numText = " ".join(numText.split());
     num = None
+    w2nInstance = w2n.W2N(lang_param=lang)
     try:
         num = w2nInstance.word_to_num(numText)
     except:
@@ -106,20 +108,23 @@ def parseNumber(text):
         num = math.e
     
     return num
-    
-def word2Num(word):
-	try:
-		return w2nInstance.word_to_num(word)
-	except:
-		return None
-		
+
 def isRegexPhrase(phrase):
-	return '*' in phrase or '{' in phrase
-	
+    return '*' in phrase or '{' in phrase
+
 def phraseToRegex(phrase):
-	phrase = re.sub('\s+', '', phrase)
-	phrase = phrase.replace('*', '.*')
-	return f'.*{phrase}.*'
+    phrase = re.sub('\s+', '', phrase)
+    phrase = phrase.replace('*', '.*')
+    return f'.*{phrase}.*'
+
+def getLevDistance(str1, str2):
+    return levdist(str1, str2)
+    
+def gitDifflibDistance(str1, str2):
+    s = SequenceMatcher(lambda x: x == " ",
+                    str1,
+                    str2)
+    return s.ratio();
 
 #regex = phraseToRegex("* küchenlicht * {num} prozent")
 #print(re.match(regex, "üchenlicht 30 prozent"))

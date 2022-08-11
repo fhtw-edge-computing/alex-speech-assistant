@@ -70,7 +70,7 @@ def doAction(item, text, actionType, config):
 	if operator:
 		operatorWord = getOperatorWord(operator, text)
 		parts = text.split(operatorWord, 1)
-		numbers = list(map(stringUtil.parseNumber, parts))
+		numbers = list(map(lambda x: stringUtil.parseNumber(x, config.get("lang")), parts))
 		print(parts)
 		print(numbers)
 		if (not util.isNumber(numbers[0])) and resultWord in parts[0]:

@@ -1,5 +1,6 @@
 import os
 import importlib
+import requests
 
 speechService = importlib.import_module("speechService")
 actionHandlerMap = {}

@@ -1,69 +1,65 @@
 {
     "lang": "de",
     "stopWords": [
-        "stopp", "sei leise"
+        "stopp",
+        "sei leise"
     ],
     "items": [
         {
+            "name": "Aktuelle Zeit",
             "actionType": "CURRENT_TIME",
-            "recognition": {
-                "phrases": [
-                    "uhrzeit",
-                    "wie sp\u00e4t"
-                ]
-            }
+            "phrases": [
+                "uhrzeit",
+                "wie sp\u00e4t"
+            ]
         },
         {
+            "name": "Aktuelles Datum",
             "actionType": "CURRENT_DATE",
-            "recognition": {
-                "phrases": [
-                    "welche * tag",
-                    "datum",
-                    "wochentag"
-                ]
-            }
+            "phrases": [
+                "welche * tag",
+                "datum",
+                "wochentag"
+            ]
         },
         {
+            "name": "Witz erz\u00c3\u00a4hlen",
             "actionType": "EXTRACT_WEBSITE",
-            "recognition": {
-                "phrases": [
-                    "witz" ,"lustiges"
-                ]
-            },
+            "phrases": [
+                "witz",
+                "lustiges"
+            ],
             "url": "https://witze.net/zuf%C3%A4llige-witze",
             "xpath": "(//div[@class=\"joke\"])[1]/text()",
             "fallback": "Ich konnte keinen Witz abrufen"
         },
         {
+            "name": "Wetter",
             "actionType": "EXTRACT_WEBSITE",
-            "recognition": {
-                "phrases": [
-                    "wetter"
-                ]
-            },
+            "phrases": [
+                "wetter"
+            ],
             "url": "https://wetter.orf.at/wien/",
             "xpath": "(//p[@class=\"teaser\"])[1]/text()",
             "fallback": "Ich konnte das Wetter nicht abrufen"
         },
         {
+            "name": "Frage: Sinn des Lebens",
             "actionType": "ANSWER_CUSTOM",
-            "recognition": {
-                "phrases": [
-                    "sinn des lebens"
-                ]
-            },
+            "phrases": [
+                "sinn des lebens"
+            ],
             "answers": [
                 "Der Sinn des Lebens ist 42"
             ]
         },
         {
+            "name": "Frage: wie gehts",
             "actionType": "ANSWER_CUSTOM",
-            "recognition": {
-                "phrases": [
-                    "wie gehts",
-                    "geht es dir"
-                ]
-            },
+            "phrases": [
+                "wie gehts",
+                "geht es dir"
+            ],
             "answers": [
                 "Mir geht es gut",
                 "Mir ist kalt",
@@ -73,38 +69,57 @@
             ]
         },
         {
+            "name": "Rechnen",
             "actionType": "CALCULATOR",
-            "recognition": {
-                "phrases": [
-                    "rechne",
-                    "wie * viel * ist",
-                    "was ist"
-                ]
-            }
+            "phrases": [
+                "rechne",
+                "wie * viel * ist",
+                "was ist"
+            ]
         },
         {
+            "name": "K\u00c3\u00bcchenlicht schalten",
             "actionType": "OPENHAB",
             "url": "http://myopenhab/restAPI/xy",
             "paramType": "number",
-            "recognition": {
-                "phrases": [
-                    "k\u00fcchenlicht",
-                    "licht * k\u00fcche",
-                    "küche * licht"
-                ]
-            }
+            "phrases": [
+                "k\u00fcchenlicht",
+                "licht * k\u00fcche",
+                "k\u00c3\u00bcche * licht"
+            ]
         },
         {
+            "name": "Wohnzimmerlicht schalten",
             "actionType": "OPENHAB",
             "url": "http://myopenhab/restAPI/xy",
-            "recognition": {
-                "phrases": [
-                    "jalousie * wohnzimmer",
-                    "wohnzimmer * jalousie",
-                    "rollo * wohnzimmer",
-                    "wohnzimmer * rollo"
-                ]
-            }
+            "paramType": "number",
+            "phrases": [
+                "wohnzimmerlicht",
+                "licht * wohnzimmer",
+                "wohnzimmer * licht"
+            ]
+        },
+        {
+            "name": "Jalousie Wohnzimmer steuern",
+            "actionType": "OPENHAB",
+            "url": "http://myopenhab/restAPI/xy",
+            "phrases": [
+                "jalousie * wohnzimmer",
+                "wohnzimmer * jalousie",
+                "rollo * wohnzimmer",
+                "wohnzimmer * rollo"
+            ]
+        },
+        {
+            "name": "Jalousie Küche steuern",
+            "actionType": "OPENHAB",
+            "url": "http://myopenhab/restAPI/xy",
+            "phrases": [
+                "jalousie * küche",
+                "küche * jalousie",
+                "rollo * küche",
+                "küche * rollo"
+            ]
         }
     ]
 }

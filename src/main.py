@@ -12,6 +12,7 @@ import importlib
 
 stringUtil = importlib.import_module("stringUtil")
 actionHandler = importlib.import_module("actionHandler")
+speechService = importlib.import_module("speechService")
 
 
 configFile = "config.json"
@@ -62,20 +63,30 @@ def handlePartial(text):
 
 def handleResult(text):
     matchingItems = []
+    similarities = []
     for item in config["items"]:
         item = setItemDefaults(item)
         if item:
-            rec = item["recognition"]
-            for phrase in rec["phrases"]:
+            distances = []
+            distances2 = []
+            for phrase in item["phrases"]:
                 if not stringUtil.isRegexPhrase(phrase) and phrase in text:
                     matchingItems.append(item)
                 elif stringUtil.isRegexPhrase(phrase):
                     regex = stringUtil.phraseToRegex(phrase)
                     if re.match(regex, text):
                         matchingItems.append(item)
+                        
+                #distance = stringUtil.getLevDistance(text, phrase)
+                #distance2 = stringUtil.gitDifflibDistance(text, phrase)
+                #distances.append(distance)
+                #distances2.append(distance2)
+            #similarities.append({"dist": min(distances), "ratio": min(distances2), "name": item.get("name")})
     
     print("matching items:")
+    #similarities.sort(key=lambda x: -x["ratio"])
     print(matchingItems)
+    print(similarities)
     if len(matchingItems) > 0:
         actionHandler.doAction(matchingItems[0], text, config)
         q.queue.clear()
@@ -83,10 +94,10 @@ def handleResult(text):
                 
         
 def setItemDefaults(item):
-    if not item or not item["actionType"] or not item["recognition"]:
+    if not item or not item.get("actionType") or not item.get("phrases"):
         return None
         
-    item["recognition"]["phrases"] = item["recognition"].get("phrases") or []
+    item["phrases"] = item.get("phrases") or []
     return item
         
 
@@ -96,13 +107,15 @@ try:
         # soundfile expects an int, sounddevice provides a float:
         args.samplerate = int(device_info['default_samplerate'])
 
-    model = vosk.Model(lang="de")
+    
     
     configFile = args.config or configFile
     with open(configFile, "r") as f:
         config = json.load(f);
         
     print(config);
+    speechService.setLang(config.get("lang"))
+    model = vosk.Model(lang=config.get("lang"))
             
 
     with sd.RawInputStream(samplerate=args.samplerate, blocksize = 8000, device=args.device, dtype='int16',
@@ -132,7 +145,7 @@ try:
                     partial = json.loads(rec.PartialResult())
                     partialText = partial["partial"]
                     if partialText:
-                        #print(f'[partial] {partialText}')
+                        print(f'[partial] {partialText}')
                         handlePartial(partialText);
 
 except KeyboardInterrupt:

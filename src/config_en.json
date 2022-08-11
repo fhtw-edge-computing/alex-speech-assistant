@@ -1,0 +1,116 @@
+{
+    "lang": "en",
+    "stopWords": [
+        "stop"
+    ],
+    "items": [
+        {
+            "name": "Current time",
+            "actionType": "CURRENT_TIME",
+            "phrases": [
+                "time"
+            ]
+        },
+        {
+            "name": "Current date",
+            "actionType": "CURRENT_DATE",
+            "phrases": [
+                "date"
+            ]
+        },
+        {
+            "name": "Tell a joke",
+            "actionType": "EXTRACT_WEBSITE",
+            "phrases": [
+                "joke",
+                "funny"
+            ],
+            "url": "https://witze.net/zuf%C3%A4llige-witze",
+            "xpath": "(//div[@class=\"joke\"])[1]/text()",
+            "fallback": "I couldn't find a joke."
+        },
+        {
+            "name": "Weather",
+            "actionType": "EXTRACT_WEBSITE",
+            "phrases": [
+                "weather"
+            ],
+            "url": "https://wetter.orf.at/wien/",
+            "xpath": "(//p[@class=\"teaser\"])[1]/text()",
+            "fallback": "I couldn't get the weather"
+        },
+        {
+            "name": "Question: Meaning of life",
+            "actionType": "ANSWER_CUSTOM",
+            "phrases": [
+                "meaning of life"
+            ],
+            "answers": [
+                "The meaning of life 42"
+            ]
+        },
+        {
+            "name": "Frage: how are you",
+            "actionType": "ANSWER_CUSTOM",
+            "phrases": [
+                "how are you"
+            ],
+            "answers": [
+                "I'm fine",
+                "I'm cold",
+                "I am tired",
+                "I'm okay",
+                "I'm happy"
+            ]
+        },
+        {
+            "name": "Calculate",
+            "actionType": "CALCULATOR",
+            "phrases": [
+                "calculate"
+            ]
+        },
+        {
+            "name": "switch kitchen light",
+            "actionType": "OPENHAB",
+            "url": "http://myopenhab/restAPI/xy",
+            "paramType": "number",
+            "phrases": [
+                "kitchen * light",
+                "light * kitchen"
+            ]
+        },
+        {
+            "name": "Switch living room light",
+            "actionType": "OPENHAB",
+            "url": "http://myopenhab/restAPI/xy",
+            "paramType": "number",
+            "phrases": [
+                "light * living room",
+                "living room * light"
+            ]
+        },
+        {
+            "name": "Control blinds living room",
+            "actionType": "OPENHAB",
+            "url": "http://myopenhab/restAPI/xy",
+            "phrases": [
+                "blinds * living room",
+                "living room * blinds",
+                "shutter * living room",
+                "living room * shutter"
+            ]
+        },
+        {
+            "name": "Control blinds kitchen",
+            "actionType": "OPENHAB",
+            "url": "http://myopenhab/restAPI/xy",
+            "phrases": [
+                "blinds * kitchen",
+                "kitchen * blinds",
+                "shutter * kitchen",
+                "kitchen* shutter"
+            ]
+        }
+    ]
+}

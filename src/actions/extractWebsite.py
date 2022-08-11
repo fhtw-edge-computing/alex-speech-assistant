@@ -1,5 +1,6 @@
 import requests
 from lxml import html
+import urllib.parse
 import importlib
 speechService = importlib.import_module("speechService")
 util = importlib.import_module("util")
@@ -10,18 +11,28 @@ def getActionTypes():
 
 def doAction(item, text, actionType, config):
 	if not util.validAttributes(item, ["url"]):
-		return
+		return None
 		
-	text = extractFromWebsite(item.get("url"), item.get("xpath"))
-	fallback = item.get("fallback") if item.get("fallback") else "Ich konnte die Website nicht abrufen"
+	return getActionText(item.get("url"), item.get("xpath"), item.get("fallback"))
+	
+def getActionText(url, xpath, fallback=None, urlargs=[]):
+	if (not url):
+		return None
+	text = extractFromWebsite(url, xpath, urlargs)
+	fallback = fallback if fallback else "Ich konnte die Website nicht abrufen"
 	text = text if text else fallback
-	speechService.speak(text)
+	return text
 		
-def extractFromWebsite(url, xpath):
+def extractFromWebsite(url, xpath, urlargs=[]):
 	try:
-		content = requests.get(url).content
+		url = urllib.parse.unquote(url)
+		print(url)
+		print(urlargs)
+		url = url.format(*urlargs)
+		print(url)
+		xpathSelector = urllib.parse.unquote(xpath) if xpath else "//body//text()"
+		content = requests.get(urllib.parse.unquote(url)).content
 		tree = html.fromstring(content)
-		xpathSelector = xpath if xpath else "//body//text()"
 		return " ".join(tree.xpath(xpathSelector)).replace("'", "").replace('"', '')
 	except:
 		return None
